@@ -1,12 +1,14 @@
 package SchuelerVerwaltung;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Objects;
 
 public record Schueler(String klasse, String name, String vorname, char geschlecht,
                        LocalDate geboren, String religion) implements Comparable<Schueler> {
-    final private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    final private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     public static Schueler makeSchueler(String s) {
         String[] strings = s.split(";");
@@ -51,5 +53,11 @@ public record Schueler(String klasse, String name, String vorname, char geschlec
                 ", geboren=" + geboren +
                 ", religion='" + religion + '\'' +
                 '}';
+    }
+
+    public int getAge(LocalDate date) {
+        Period p = Period.between(geboren, date);
+        if (p.isNegative()) throw new IllegalArgumentException("Student not born yet: " + date);
+        return p.getYears();
     }
 }
