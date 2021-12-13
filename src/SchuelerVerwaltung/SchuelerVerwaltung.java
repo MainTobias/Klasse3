@@ -59,8 +59,12 @@ public class SchuelerVerwaltung {
 
     public Map<String, Map<String, List<String>>> getReligionsZugehoerigkeit() {
         Map<String, Map<String, List<String>>> relis = new TreeMap<>();
-        schuelers.forEach(s -> relis.putIfAbsent(s.religion(), schuelers.stream().collect(Collectors.toMap(x -> x.klasse(), x -> schuelers.stream().filter(sch -> Objects.equals(s.religion(), sch.religion()) && Objects.equals(s.klasse(), sch.klasse())).collect(Collectors.toList())))));
+        schuelers.forEach(s -> relis.putIfAbsent(s.religion(), schuelers.stream().collect(Collectors.toMap(x -> x.klasse(), x -> schuelers.stream().filter(sch -> Objects.equals(s.religion(), sch.religion()) && Objects.equals(s.klasse(), sch.klasse())).map(Schueler::name).collect(Collectors.toList()), (existing, replacement) -> existing))));
         return relis;
+    }
+
+    public Map<LocalDate, Set<String>> getGeburtstagsListe(int jahr) {
+        return schuelers.stream().filter(s -> s.geboren().getYear() == jahr).collect(Collectors.toMap(s -> s.geboren(), s -> String.format("%s %s %s"),(existing, replacement) -> existing));
     }
 
     public static void main(String[] args) throws IOException {
