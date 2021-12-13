@@ -3,8 +3,9 @@ package SchuelerVerwaltung;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.Period;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SchuelerVerwaltung {
@@ -44,11 +45,15 @@ public class SchuelerVerwaltung {
     }
 
     public Set<Schueler> getAllWith(char geschlecht) {
-        return schuelers.stream().filter(s -> s.geschlecht() == geschlecht).collect(Collectors.toSet());
+        return schuelers.stream().filter(s -> s.geschlecht() == geschlecht).collect(Collectors.toCollection(TreeSet::new));
     }
 
     public Set<Schueler> getGeborenBis(LocalDate datum, boolean vorNach) {
-        return schuelers.stream().filter(s -> true).collect(Collectors.toSet());
+        return schuelers.stream().filter(s -> {
+            boolean b = Period.between(s.geboren(), datum).isNegative();
+            if (vorNach) return !b;
+            return b;
+        }).collect(Collectors.toSet());
     }
 
     public Map<String, Integer> getKlassenAnzahl() {
@@ -63,13 +68,21 @@ public class SchuelerVerwaltung {
         return relis;
     }
 
-    public Map<LocalDate, Set<String>> getGeburtstagsListe(int jahr) {
-        return schuelers.stream().filter(s -> s.geboren().getYear() == jahr).collect(Collectors.toMap(s -> s.geboren(), s -> String.format("%s %s %s"),(existing, replacement) -> existing));
+    public Map<LocalDate, Set<String>> getGeburtstagsListe(final int jahr) {
+        return schuelers.stream().map(Schueler::geboren).filter(d -> d.getYear() < jahr).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
+    }
+
+    public Map<LocalDate, Set<String>> getGeburtstagsListe() {
+        return schuelers.stream().map(Schueler::geboren).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
+    }
+
+    public Set<Schueler> getSchuelerMatching(Predicate<Schueler> p) {
+        return schuelers.stream().filter(p).collect(Collectors.toSet());
     }
 
     public static void main(String[] args) throws IOException {
         SchuelerVerwaltung s = new SchuelerVerwaltung("resources/Schuelerverwaltung/Schueler_SortName.csv");
-        System.out.println(s.schuelers);
+        System.out.println(s.getGeburtstagsListe());
     }
 
 }
