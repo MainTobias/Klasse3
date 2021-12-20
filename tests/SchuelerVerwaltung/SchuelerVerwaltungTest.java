@@ -155,6 +155,7 @@ public class SchuelerVerwaltungTest {
         List<Set<String>> names = new ArrayList<>(result.values());
         Assertions.assertEquals(2, names.get(5).size());
         Assertions.assertEquals(7, names.get(43).size());
+        System.out.println(result);
         Assertions.assertTrue(names.get(5).contains("Mrskos Julia Marlene 1CHIF 15"));
     }
 
