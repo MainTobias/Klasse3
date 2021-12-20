@@ -57,19 +57,22 @@ public class SchuelerVerwaltung {
     }
 
     public Map<String, Integer> getKlassenAnzahl() {
-        Map<String, Integer> klassen = new TreeMap<>();
-        schuelers.forEach(s -> klassen.put(s.klasse(), klassen.getOrDefault(s.klasse(), 1)));
-        return klassen;
+        return schuelers.stream().collect(Collectors.toMap(Schueler::klasse, x -> getSchuelerFromKlasse(x.klasse()).size(), (o, n) -> o));
     }
 
     public Map<String, Map<String, List<String>>> getReligionsZugehoerigkeit() {
-        Map<String, Map<String, List<String>>> relis = new TreeMap<>();
-        schuelers.forEach(s -> relis.putIfAbsent(s.religion(), schuelers.stream().collect(Collectors.toMap(x -> x.klasse(), x -> schuelers.stream().filter(sch -> Objects.equals(s.religion(), sch.religion()) && Objects.equals(s.klasse(), sch.klasse())).map(Schueler::name).collect(Collectors.toList()), (existing, replacement) -> existing))));
-        return relis;
+        return schuelers.stream().map(Schueler::religion).distinct().collect(Collectors.toMap(x -> x, x -> schuelers.stream().filter(schueler -> schueler.religion().equals(x)).collect(Collectors.toMap(s -> s.klasse(), s -> new ArrayList<>(Collections.singleton(s.name())), (o, n) -> {
+            o.addAll(n);
+            return o;
+        }))));
     }
 
     public Map<LocalDate, Set<String>> getGeburtstagsListe(final int jahr) {
-        return schuelers.stream().map(Schueler::geboren).filter(d -> d.getYear() < jahr).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
+        return schuelers.stream().collect(Collectors.toMap(x -> x.geboren().withYear(jahr), x -> new TreeSet<>(Collections.singleton(String.format("%s %s %s %d", x.name(), x.vorname(), x.klasse(), jahr-x.geboren().getYear()))), (o, n) -> {
+            o.addAll(n);
+            return o;
+        }, TreeMap::new));
+        //return schuelers.stream().map(Schueler::geboren).filter(d -> d.getYear() < jahr).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
     }
 
     public Map<LocalDate, Set<String>> getGeburtstagsListe() {
