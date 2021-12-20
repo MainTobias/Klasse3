@@ -20,18 +20,19 @@ public class SchuelerVerwaltung {
     }
 
     private static Collection<Schueler> readFrom(String filename) throws IOException {
-        Set<Schueler> schuelers = new TreeSet<Schueler>();
+        Set<Schueler> schuelers = new TreeSet<>();
         Scanner sc = new Scanner(Path.of(filename));
         if (sc.hasNextLine()) sc.nextLine();
         String line;
-        String[] strings;
+        int l = 2;
         while (sc.hasNextLine()) {
             line = sc.nextLine();
             try {
                 schuelers.add(Schueler.makeSchueler(line));
             } catch (Exception e) {
-                System.out.println("Malformed line: " + line);
+                System.out.println("Malformed line(" + l + "): " + line);
             }
+            l++;
         }
         return schuelers;
     }
@@ -68,15 +69,17 @@ public class SchuelerVerwaltung {
     }
 
     public Map<LocalDate, Set<String>> getGeburtstagsListe(final int jahr) {
-        return schuelers.stream().collect(Collectors.toMap(x -> x.geboren().withYear(jahr), x -> new TreeSet<>(Collections.singleton(String.format("%s %s %s %d", x.name(), x.vorname(), x.klasse(), jahr-x.geboren().getYear()))), (o, n) -> {
+        return schuelers.stream().filter(x -> x.geboren().getYear() <= jahr).collect(Collectors.toMap(x -> x.geboren().withYear(jahr), x -> new TreeSet<>(Collections.singleton(String.format("%s %s %s %d", x.name(), x.vorname(), x.klasse(), jahr - x.geboren().getYear()))), (o, n) -> {
             o.addAll(n);
             return o;
         }, TreeMap::new));
-        //return schuelers.stream().map(Schueler::geboren).filter(d -> d.getYear() < jahr).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
     }
 
     public Map<LocalDate, Set<String>> getGeburtstagsListe() {
-        return schuelers.stream().map(Schueler::geboren).collect(Collectors.toMap(LocalDate::getYear, v -> v, (o, n) -> o)).values().stream().collect(Collectors.toMap(k -> k, k -> schuelers.stream().filter(s -> Objects.equals(k.getYear(), s.geboren().getYear())).map(Schueler::name).collect(Collectors.toSet())));
+        return schuelers.stream().collect(Collectors.toMap(x -> x.geboren().withYear(LocalDate.now().getYear()), x -> new TreeSet<>(Collections.singleton(String.format("%s %s %s %d", x.name(), x.vorname(), x.klasse(), LocalDate.now().getYear() - x.geboren().getYear()))), (o, n) -> {
+            o.addAll(n);
+            return o;
+        }, TreeMap::new));
     }
 
     public Set<Schueler> getSchuelerMatching(Predicate<Schueler> p) {
