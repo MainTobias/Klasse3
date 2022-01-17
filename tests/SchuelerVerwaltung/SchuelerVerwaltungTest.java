@@ -1,10 +1,6 @@
 package SchuelerVerwaltung;
 
 
-
-
-
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,21 +64,14 @@ public class SchuelerVerwaltungTest {
     @Test
     public void containtsName_manySchueler_multipleResults() {
         Set<Schueler> result = verwaltung.containsName("Riegler", true);
-        Set<Schueler> expected = new TreeSet<>(Set.of(
-                Schueler.makeSchueler("1AHIF;Riegler;Marvin;m;01.09.2002;evang. A.B."),
-                Schueler.makeSchueler("2CHIF;Riegler;Lukas;m;20.06.2001;röm.-kath."),
-                Schueler.makeSchueler("3AHIF;Riegler;Sebastian;m;15.02.2000;röm.-kath.")
-        ));
+        Set<Schueler> expected = new TreeSet<>(Set.of(Schueler.makeSchueler("1AHIF;Riegler;Marvin;m;01.09.2002;evang. A.B."), Schueler.makeSchueler("2CHIF;Riegler;Lukas;m;20.06.2001;röm.-kath."), Schueler.makeSchueler("3AHIF;Riegler;Sebastian;m;15.02.2000;röm.-kath.")));
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     public void containtsName_subString_multipleResults() {
         Set<Schueler> result = verwaltung.containsName("sic", false);
-        Set<Schueler> expected = new TreeSet<>(Set.of(
-                Schueler.makeSchueler("2CHIF;Presich;Sophie-Marie;w;29.01.2000;evang. A.B."),
-                Schueler.makeSchueler("3BHIF;Husic;Senad;m;03.04.2000;islam.")
-        ));
+        Set<Schueler> expected = new TreeSet<>(Set.of(Schueler.makeSchueler("2CHIF;Presich;Sophie-Marie;w;29.01.2000;evang. A.B."), Schueler.makeSchueler("3BHIF;Husic;Senad;m;03.04.2000;islam.")));
         Assertions.assertEquals(expected, result);
     }
 
@@ -135,15 +124,13 @@ public class SchuelerVerwaltungTest {
 
     @Test
     public void getGeborenBis_beforeDate_allSchuelerBornBeforeDate() {
-        Set<Schueler> result = verwaltung.getGeborenBis(
-                LocalDate.of(1999, 7, 1), true);
+        Set<Schueler> result = verwaltung.getGeborenBis(LocalDate.of(1999, 7, 1), true);
         Assertions.assertEquals(120, result.size());
     }
 
     @Test
     public void getGeborenBis_afterDate_allSchuelerBornAfterDate() {
-        Set<Schueler> result = verwaltung.getGeborenBis(
-                LocalDate.of(1999, 7, 1), false);
+        Set<Schueler> result = verwaltung.getGeborenBis(LocalDate.of(1999, 7, 1), false);
         Assertions.assertEquals(204, result.size());
     }
 
@@ -163,9 +150,7 @@ public class SchuelerVerwaltungTest {
     public void geburtstagsListe_year2013_allDaysInCurrentYear() {
         int year = 2013;
         Map<LocalDate, Set<String>> result = verwaltung.getGeburtstagsListe(year);
-        result.keySet()
-                .parallelStream()
-                .forEach(date -> Assertions.assertEquals(year, date.getYear()));
+        result.keySet().parallelStream().forEach(date -> Assertions.assertEquals(year, date.getYear()));
     }
 
     @Test
