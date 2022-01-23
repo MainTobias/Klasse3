@@ -4,6 +4,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Raf was very helpful. https://open.spotify.com/track/3ZDXLSUZpKx8pspNBOdVr5?si=46e78fbb5f7e42b3
+ */
+
 public class CheckInt {
 
     public static void createFile(String filename, double... values) throws IOException {
