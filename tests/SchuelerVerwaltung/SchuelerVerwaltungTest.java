@@ -155,6 +155,7 @@ public class SchuelerVerwaltungTest {
 
     @Test
     public void geburtstagsListe_year1995_allDaysWithAtLeastOneSchuelerBornUntil1995formattedAsSpecified() {
+        System.out.println(verwaltung.getGeburtstagsListe(1995));
         Assertions.assertEquals(5, verwaltung.getGeburtstagsListe(1995).size());
     }
 
