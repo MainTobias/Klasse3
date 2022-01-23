@@ -1,6 +1,7 @@
 package BinaryFiles;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,10 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.EnumSet;
 
 public class FileBasedTest {
+    @BeforeEach
+    void deleteFileIfExists() throws IOException {
+        Files.deleteIfExists(Path.of(TESTFILE_NAME));
+    }
 
     public static final String TESTFILE_NAME = "test.dat";
 
