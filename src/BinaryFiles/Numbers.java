@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2022. Tobias Hammerer
+ */
+
 package BinaryFiles;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class Numbers {
     public static List<Number> getContents(String filename) throws IOException {
