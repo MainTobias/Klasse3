@@ -9,8 +9,47 @@
 package Hotels;
 
 
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
-public record Hotel() {
+
+enum DeletionFlag {
+    NOT_DELETED(0x0000),
+    DELETED(0x8000);
+
+    private final int mark;
+
+    DeletionFlag(int mark) {
+        this.mark = mark;
+    }
+
+    public int getMark() {
+        return mark;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "(0x" + Integer.toHexString(mark) + ")";
+    }
+}
 
 
+public record Hotel(boolean markedDeleted, String name) {
+    public static void main(String[] args) {
+        System.out.println(DeletionFlag.DELETED);
+    }
+    public static <I extends InputStream> Column read(final I in) throws IOException {
+        DataInputStream din = new DataInputStream(in);
+        short nameLength = din.readShort();
+        byte[] b = new byte[nameLength];
+        int read = din.read(b);
+        if (read == -1 || read != nameLength) {
+            throw new EOFException("Stream ended to soon to read full name!");
+        }
+        String name = new String(b, StandardCharsets.UTF_8);
+        return new Column(name, din.readShort());
+    }
 }
