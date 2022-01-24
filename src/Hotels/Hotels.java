@@ -11,7 +11,10 @@ package Hotels;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+
 
 public class Hotels {
     private final String filename;
@@ -32,11 +35,14 @@ public class Hotels {
     }
 
     public Map<String, Short> readColumns() throws IOException {
+        Map<String, Short> columns = new LinkedHashMap<>(columnCount);
         try (DataInputStream din = new DataInputStream(new FileInputStream(filename))) {
             din.skipBytes(10);
             for (int i = 0; i < columnCount; i++) {
                 Column c = Column.read(din);
+                columns.put(c.columName(), c.columnValueLength());
             }
         }
+        return columns;
     }
 }
