@@ -26,9 +26,15 @@ enum DeletionFlag {
         this.mark = mark;
     }
 
-    public int getMark() {
-        return mark;
+    public static DeletionFlag from(int x) {
+        for (DeletionFlag f : values()) {
+            if (f.mark == x) {
+                return f;
+            }
+        }
+        throw new IllegalArgumentException("No such DeletionFlag: " + x);
     }
+
 
     @Override
     public String toString() {
@@ -37,9 +43,9 @@ enum DeletionFlag {
 }
 
 
-public record Hotel(boolean markedDeleted, String name) {
+public record Hotel(DeletionFlag deletionFlag, String name) {
     public static void main(String[] args) {
-        System.out.println(DeletionFlag.DELETED);
+        System.out.println(DeletionFlag.from(0x7000));
     }
     public static <I extends InputStream> Column read(final I in) throws IOException {
         DataInputStream din = new DataInputStream(in);
