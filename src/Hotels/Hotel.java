@@ -9,11 +9,16 @@
 package Hotels;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 enum DeletionFlag {
@@ -43,19 +48,20 @@ enum DeletionFlag {
 }
 
 
-public record Hotel(DeletionFlag deletionFlag, String name) {
+public record Hotel(DeletionFlag deletionFlag, Map<String, String> values) {
     public static void main(String[] args) {
-        System.out.println(DeletionFlag.from(0x7000));
+        System.out.println(DeletionFlag.from(0x8000));
     }
-    public static <I extends InputStream> Column read(final I in) throws IOException {
+
+    public static <I extends InputStream, C extends LinkedHashMap<String, Short>> Hotel read(@NotNull final I in, @NotNull final C columns) throws IOException {
         DataInputStream din = new DataInputStream(in);
-        short nameLength = din.readShort();
-        byte[] b = new byte[nameLength];
-        int read = din.read(b);
-        if (read == -1 || read != nameLength) {
-            throw new EOFException("Stream ended to soon to read full name!");
+        DeletionFlag deleted = DeletionFlag.from(din.readShort());
+        Map<String, String> values = new LinkedHashMap<>();
+        for (String key : columns.keySet()) {
+            byte[] bytes = new byte[columns.get(key)];
+            din.readFully(bytes);
+            values.put(key, new String(bytes, StandardCharsets.UTF_8));
         }
-        String name = new String(b, StandardCharsets.UTF_8);
-        return new Column(name, din.readShort());
+        return new Hotel(deleted, values);
     }
 }
