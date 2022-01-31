@@ -42,7 +42,7 @@ public class Numbers {
         Map<String, Set<Number>> grouped = new TreeMap<>();
         numbers.forEach(x -> {
             String name = x.getClass().getSimpleName();
-            grouped.put(name, add(grouped.getOrDefault(name, new TreeSet<>()), x.getClass().equals(Integer.class) ? x.intValue() : x));
+            grouped.put(name, add(grouped.getOrDefault(name, new HashSet<>()), x.getClass().equals(Integer.class) ? x.intValue() : x));
         });
         return grouped;
     }
