@@ -54,25 +54,27 @@ public class HotelTest {
     }
 
     @Test
-    public void createsHotel() {
-        byte[] data = null;
-        Map<String, Short> columns = null;
+    public void createsHotel() throws IOException {
+        byte[] data = {0, 0, 80, 97, 108, 97, 105, 115, 32, 67, 111, 98, 117, 114, 103, 87, 105, 101, 110, 51, 50, 32, 32, 89, 36, 53, 48, 48, 50, 48, 50, 50, 47, 48, 49, 47, 48, 49, 32, 32, 32, 32, 32, 32, 32, 32};
+        LinkedHashMap<String, Short> columns = new LinkedHashMap<>();
+        columns.put("name", (short) 13);
+        columns.put("location", (short) 4);
+        columns.put("size", (short) 4);
+        columns.put("smoking", (short) 1);
+        columns.put("rate", (short) 4);
+        columns.put("date", (short) 10);
+        columns.put("owner", (short) 8);
 
         Hotel hotel = new Hotel(data, columns);
-
-        throw new UnsupportedOperationException("""
-                TODO 
-                Testlogik, welche sicherstellt, dass der angeführte Konstruktor 
-                mit den übergebenen Argumenten funktioniert und das richtige Hotel erzeugt
-                Dazu müssen die null Zuweisungen natürlich entsprechend modifiziert werden.
-                """);
+        assertEquals("Palais Coburg", hotel.name);
+        assertEquals("Wien", hotel.location);
     }
 
     @Test
     public void cannotReadFromInvalidFile() {
         String filename = "invalid.db";
 
-        String errorMsg = assertThrows(IllegalArgumentException.class, () -> Hotel.readHotels(filename)).getMessage();
+        String errorMsg = assertThrows(IllegalArgumentException.class, () -> Hotels.readHotels(filename)).getMessage();
         assertTrue(errorMsg.contains(filename));
     }
 
