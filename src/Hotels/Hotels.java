@@ -23,7 +23,7 @@ public class Hotels {
         return files.get(Path.of(filename)).offset;
     }
 
-    private final record HotelFileInfo(int id, int offset, short columnCount) {
+    private record HotelFileInfo(int id, int offset, short columnCount) {
         public static final int headerLength = 4 + 4 + 2;
     }
 
@@ -41,21 +41,17 @@ public class Hotels {
     public static LinkedHashMap<String, Short> readColumns(@NotNull String filename) throws IOException {
         assureHotelFileInfo(Path.of(filename));
         LinkedHashMap<String, Short> columns = new LinkedHashMap<>(files.get(Path.of(filename)).columnCount);
-        int readBytes = 0;
         try (DataInputStream din = new DataInputStream(new FileInputStream(filename))) {
-            din.skipBytes(10);
+            din.skipBytes(HotelFileInfo.headerLength);
             for (int i = 0; i < files.get(Path.of(filename)).columnCount; i++) {
                 short nameLength = din.readShort();
-                readBytes += 2;
                 byte[] b = new byte[nameLength];
                 int read = din.read(b);
-                readBytes += nameLength;
                 if (read == -1 || read != nameLength) {
                     throw new EOFException("Stream ended to soon to read full name!");
                 }
                 String name = new String(b, StandardCharsets.UTF_8);
                 columns.put(name, din.readShort());
-                readBytes += 2;
             }
         }
         return columns;
@@ -64,13 +60,20 @@ public class Hotels {
     public static Set<Hotel> readHotels(@NotNull String filename) throws IOException {
         assureHotelFileInfo(Path.of(filename));
         LinkedHashMap<String, Short> columns = readColumns(filename);
-        final int skipBytes = HotelFileInfo.headerLength + files.get(Path.of(filename)).offset + columns.keySet().stream().mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length + 2).sum();
-        Set<Hotel> hotels = new LinkedHashSet<>();
+        System.out.println(columns);
+        Set<Hotel> hotels = new TreeSet<>();
+        System.out.println(columns);
         try (DataInputStream din = new DataInputStream(new FileInputStream(filename))) {
-            din.skipBytes(skipBytes);
+            din.skipBytes(files.get(Path.of(filename)).offset);
             while (din.available() > 0) {
-                hotels.add(Hotel.read(din, columns));
+                Hotel x = new Hotel(din, columns);
+                if (x.isDeleted()) continue;
+                hotels.add(x);
+                System.out.println("Added " + x);
             }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new IllegalArgumentException(filename + " is malformed!");
         }
         return hotels;
     }
