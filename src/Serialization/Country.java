@@ -5,17 +5,16 @@
 package Serialization;
 
 
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
-public class Country implements Serializable {
+public class Country implements Serializable{
     String countryCode;
     String name;
     String capital;
@@ -48,21 +47,48 @@ public class Country implements Serializable {
     }
 
     @Serial
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.writeObject(countryCode);
-        out.writeObject(capitalize ? name.toUpperCase() : name);
-        out.writeObject(capitalize ? capital.toUpperCase() : capital);
-        out.writeObject(area);
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        //out.defaultWriteObject();
+        out.writeUTF(countryCode);
+        out.writeUTF(capitalize ? name.toUpperCase() : name);
+        out.writeUTF(capitalize ? capital.toUpperCase() : capital);
+        out.writeUTF(area);
         out.writeInt(population);
+        //out.flush();
+        //out.close();
     }
 
     @Serial
-    private void readObject(java.io.ObjectOutputStream out) throws IOException {
-        out.writeObject(countryCode);
-        out.writeObject(capitalize ? name.toUpperCase() : name);
-        out.writeObject(capitalize ? capital.toUpperCase() : capital);
-        out.writeObject(area);
-        out.writeInt(population);
+    private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException
+    {
+        countryCode = in.readUTF();
+        name = in.readUTF();
+        capital = in.readUTF();
+        area = in.readUTF();
+        population = in.readInt();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return population == country.population && (countryCode.equals(country.countryCode) || (capitalize && countryCode.equalsIgnoreCase(country.countryCode))) && (name.equals(country.name) || (capitalize && name.equalsIgnoreCase(country.name))) && area.equals(country.area);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(countryCode.toLowerCase(), name.toLowerCase(), capital.toLowerCase(), area.toLowerCase(), population);
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryCode='" + countryCode + '\'' +
+                ", name='" + name + '\'' +
+                ", capital='" + capital + '\'' +
+                ", area='" + area + '\'' +
+                ", population=" + population +
+                '}';
+    }
 }
