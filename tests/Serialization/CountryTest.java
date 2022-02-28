@@ -17,7 +17,7 @@ class CountryTest {
     @Test
     void serializeAndDeserialize() throws IOException, ClassNotFoundException {
         List<Country> countries = Country.fromCsv(Path.of("resources/Serialization/countries.csv"));
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream(256);
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(byteOut);
         out.writeObject(countries);
         out.close();
@@ -31,13 +31,14 @@ class CountryTest {
     void serializeAndDeserializeWithCapitalLetters() throws IOException, ClassNotFoundException {
         List<Country> countries = Country.fromCsv(Path.of("resources/Serialization/countries.csv"));
         Country.setCapitalize(true);
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream(256);
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(byteOut);
         out.writeObject(countries);
         out.close();
         ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
         ObjectInputStream in = new ObjectInputStream(byteIn);
         List<Country> deserializedCountries = (List<Country>) in.readObject();
+        System.out.println(countries);
         assertEquals(countries, deserializedCountries);
     }
 }
