@@ -13,7 +13,7 @@ public class AsciiInputStream extends FileInputStream {
         super(name);
     }
 
-    public String readLine() throws IOException, EOFException {
+    public String readLine() throws IOException {
         StringBuilder builder = new StringBuilder();
         int c;
         while (true) {
