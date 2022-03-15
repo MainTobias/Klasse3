@@ -7,7 +7,9 @@ package Serialization;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Schueler implements Serializable {
@@ -63,19 +65,22 @@ public class Schueler implements Serializable {
             throw new IllegalArgumentException("Sozialversicherungsnummer muss 10 Stellen haben");
         if (sozialversicherungsnummer.toString().charAt(0) == '0')
             throw new IllegalArgumentException("Sozialversicherungsnummer darf nicht mit 0 beginnen");
-        int x1 = (int) (sozialversicherungsnummer / 1_000_000_000);
-        int x2 = (int) (sozialversicherungsnummer / 100_000_000 % 10);
-        int x3 = (int) (sozialversicherungsnummer / 10_000_000 % 10);
-        int p = (int) (sozialversicherungsnummer / 1_000_000 % 10);
-        int t1 = (int) (sozialversicherungsnummer / 100_000 % 10);
-        int t2 = (int) (sozialversicherungsnummer / 10_000 % 10);
-        int m1 = (int) (sozialversicherungsnummer / 1000 % 10);
-        int m2 = (int) (sozialversicherungsnummer / 100 % 10);
-        int j1 = (int) (sozialversicherungsnummer / 10 % 10);
-        int j2 = (int) (sozialversicherungsnummer % 10);
-        if ((x1 * 3 + x2 * 7 + x3 * 9 + t1 * 5 + t2 * 8 + m1 * 4 + m2 * 2 + j1 + j2 * 6) % 11 != p)
+        if (!isValidSNR(sozialversicherungsnummer))
             throw new IllegalArgumentException("Sozialversicherungsnummer ist ungültig");
         this.sozialversicherungsnummer = sozialversicherungsnummer;
+    }
+    private static boolean isValidSNR(long n) {
+        int x1 = (int) (n / 1_000_000_000);
+        int x2 = (int) (n / 100_000_000 % 10);
+        int x3 = (int) (n / 10_000_000 % 10);
+        int p = (int) (n / 1_000_000 % 10);
+        int t1 = (int) (n / 100_000 % 10);
+        int t2 = (int) (n / 10_000 % 10);
+        int m1 = (int) (n / 1000 % 10);
+        int m2 = (int) (n / 100 % 10);
+        int j1 = (int) (n / 10 % 10);
+        int j2 = (int) (n % 10);
+        return (x1 * 3 + x2 * 7 + x3 * 9 + t1 * 5 + t2 * 8 + m1 * 4 + m2 * 2 + j1 + j2 * 6) % 11 == p;
     }
 
     @Override
@@ -92,28 +97,27 @@ public class Schueler implements Serializable {
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         // reverse ceasar cipher of kennung and sozialversicherungsnummer
-        out.writeUTF(CipherUtil.reverseCeaser(toGermanNumber(kennung), KEY) + " " + CipherUtil.reverseCeaser(toGermanNumber(kennung), KEY));
+        out.writeUTF(CipherUtil.reverseCeaser(new GermanNumber(kennung).toString(), KEY) + " " + CipherUtil.reverseCeaser(new GermanNumber(sozialversicherungsnummer).toString(), KEY));
     }
-
 
 
     @Serial
     private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
         in.defaultReadObject();
         String[] s = in.readUTF().split(" ");
-        kennung = Integer.parseInt(DecipherUtil.reverseCeaser(s[0], KEY));
-        sozialversicherungsnummer = Long.parseLong(DecipherUtil.reverseCeaser(s[1], KEY));
+        kennung = Math.toIntExact(new GermanNumber(DecipherUtil.reverseCeaser(s[0], KEY)).number);
+        sozialversicherungsnummer = new GermanNumber(DecipherUtil.reverseCeaser(s[1], KEY)).number;
     }
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // create array of students
         Schueler[] schueler = new Schueler[5];
-        schueler[0] = new Schueler("Mustermann", "Max", 1, 1L);
-        schueler[1] = new Schueler("Musterfrau", "Mia", 2, 2L);
-        schueler[2] = new Schueler("Trumpler", "Tobias", 3, 3L);
-        schueler[3] = new Schueler("Strauß", "Sandra", 4, 4L);
-        schueler[4] = new Schueler("Müller", "Marlene", 5, 5L);
+        schueler[0] = new Schueler("Mustermann", "Max", 1, 1000000056L);
+        schueler[1] = new Schueler("Musterfrau", "Mia", 2, 1000000072L);
+        schueler[2] = new Schueler("Trumpler", "Tobias", 3, 1000000013L);
+        schueler[3] = new Schueler("Strauß", "Sandra", 4, 1000000099L);
+        schueler[4] = new Schueler("Mueller", "Marlene", 5, 1000000048L);
         System.out.println(Arrays.toString(schueler));
 
 
