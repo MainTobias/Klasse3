@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2022 by MainTobias
- */
-
-package com.textcombiner;
+package com.swapper;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,9 +9,9 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("text-combiner.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("swapper.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Text Combiner");
+        stage.setTitle("Swapper");
         stage.setScene(scene);
         stage.show();
     }
