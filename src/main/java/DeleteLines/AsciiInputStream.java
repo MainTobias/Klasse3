@@ -6,7 +6,10 @@ package DeleteLines;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class AsciiInputStream extends FileInputStream {
     public AsciiInputStream(@NotNull String name) throws FileNotFoundException {
