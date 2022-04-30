@@ -18,5 +18,4 @@ module fx {
     opens lists to javafx.fxml;
     exports lists;
 
-
 }

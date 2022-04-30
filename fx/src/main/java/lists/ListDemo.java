@@ -61,6 +61,8 @@ public class ListDemo extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle(this.getClass().getSimpleName());
         stage.setScene(scene);
+        stage.setMinHeight(250);
+        stage.setMinWidth(250);
         stage.show();
     }
 }

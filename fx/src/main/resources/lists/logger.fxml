@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lists.Logger">
+    <children>
+        <GridPane layoutX="-2.0" layoutY="-2.0" prefHeight="400.0" prefWidth="600.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="122.0"/>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="478.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="66.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="206.0" vgrow="ALWAYS"/>
+            </rowConstraints>
+            <children>
+                <Button mnemonicParsing="false" text="Button" GridPane.halignment="CENTER" onAction="#somethingOnActionHandler"/>
+                <RadioButton mnemonicParsing="false" text="Option 1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="option"/>
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton mnemonicParsing="false" text="Option 2" toggleGroup="$option" GridPane.halignment="CENTER"
+                             GridPane.rowIndex="2"/>
+                <RadioButton mnemonicParsing="false" text="Option 3" toggleGroup="$option" GridPane.halignment="CENTER"
+                             GridPane.rowIndex="3"/>
+                <CheckBox mnemonicParsing="false" prefHeight="7.0" prefWidth="73.0" text="CheckBox"
+                          GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP" onAction="#somethingOnActionHandler">
+                    <GridPane.margin>
+                        <Insets left="5.0" top="20.0"/>
+                    </GridPane.margin>
+                </CheckBox>
+                <ListView maxHeight="Infinity" maxWidth="Infinity" prefHeight="200.0" prefWidth="200.0"
+                          GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS"
+                          GridPane.rowSpan="2147483647" GridPane.vgrow="ALWAYS" fx:id="logs"/>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

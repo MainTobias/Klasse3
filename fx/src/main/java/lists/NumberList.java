@@ -87,6 +87,8 @@ public class NumberList extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle(this.getClass().getSimpleName());
         stage.setScene(scene);
+        stage.setMinWidth(700);
+        stage.setMinHeight(550);
         stage.show();
     }
 

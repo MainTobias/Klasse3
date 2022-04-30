@@ -12,10 +12,10 @@
 <AnchorPane prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lists.ListDemo">
 
     <children>
-        <GridPane layoutX="-6.0" prefHeight="402.0" prefWidth="600.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+        <GridPane layoutX="-6.0" prefHeight="402.0" prefWidth="600.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" minHeight="100">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="123.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="445.0" minWidth="10.0" prefWidth="361.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="70.0" prefWidth="123.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="361.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -26,7 +26,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ListView fx:id="items" GridPane.columnIndex="1" GridPane.rowSpan="6">
+                <ListView fx:id="items" GridPane.columnIndex="1" GridPane.rowSpan="6" maxWidth="Infinity" minWidth="70">
                <GridPane.margin>
                   <Insets left="8.0" />
                </GridPane.margin></ListView>
