@@ -18,4 +18,7 @@ module fx {
     opens lists to javafx.fxml;
     exports lists;
 
+    opens bindings to javafx.fxml;
+    exports bindings;
+
 }
