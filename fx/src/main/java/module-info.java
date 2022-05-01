@@ -21,4 +21,9 @@ module fx {
     opens bindings to javafx.fxml;
     exports bindings;
 
+    opens counter.withoutModel to javafx.fxml;
+    exports counter.withoutModel;
+
+    opens counter.withModel to javafx.fxml;
+    exports counter.withModel;
 }
