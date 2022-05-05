@@ -1,6 +1,6 @@
 package bindings;
 
-import javafx.application.Application;
+import com.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;

@@ -1,6 +1,6 @@
 package lists;
 
-import javafx.application.Application;
+import com.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

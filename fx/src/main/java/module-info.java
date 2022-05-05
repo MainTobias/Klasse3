@@ -1,6 +1,7 @@
 module fx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
 
 
     opens chess to javafx.fxml;
@@ -26,4 +27,7 @@ module fx {
 
     opens counter.withModel to javafx.fxml;
     exports counter.withModel;
+
+    opens com to javafx.fxml;
+    exports com;
 }

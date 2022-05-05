@@ -1,6 +1,6 @@
 package bindings;
 
-import javafx.application.Application;
+import com.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

@@ -1,6 +1,6 @@
 package counter.withModel;
 
-import javafx.application.Application;
+import com.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

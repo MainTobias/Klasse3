@@ -17,7 +17,7 @@ public class Schueler implements Serializable {
     String vorname;
     transient Integer kennung;
     transient Long sozialversicherungsnummer;
-    private final static transient int KEY = 4;
+    private final static int KEY = 4;
 
     public Schueler(String name, String vorname, Integer kennung, Long sozialversicherungsnummer) {
         setName(name);

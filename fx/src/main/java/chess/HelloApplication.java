@@ -1,23 +1,15 @@
 package chess;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import com.Application;
 import javafx.scene.Scene;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HelloApplication extends Application {
-    private static int SIZE = 60;
+    private static final int SIZE = 60;
 
     private static Color getColor(int column, int row) {
         if (row % 2 == 0) {
@@ -37,7 +29,6 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-
         GridPane root = new GridPane();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
