@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rectangle.RectangleController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="52.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="567.0" minWidth="10.0" prefWidth="548.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="9.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="258.0" minHeight="10.0" prefHeight="256.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Farbe:" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Breite:" GridPane.rowIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Höhe:" GridPane.rowIndex="2" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fläche:" GridPane.rowIndex="3" />
+      <ChoiceBox fx:id="color" prefWidth="150.0" GridPane.columnIndex="1" />
+      <Slider fx:id="width" majorTickUnit="100.0" max="400.0" minorTickCount="1" showTickLabels="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Slider fx:id="height" majorTickUnit="100.0" max="400.0" minorTickCount="1" showTickLabels="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Text fx:id="area" strokeType="OUTSIDE" strokeWidth="0.0" text="0 E²" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+   </children>
+</GridPane>

@@ -30,4 +30,10 @@ module fx {
 
     opens com to javafx.fxml;
     exports com;
+
+    opens textcombiner2 to javafx.fxml;
+    exports textcombiner2;
+
+    opens rectangle to javafx.fxml;
+    exports rectangle;
 }
