@@ -41,12 +41,16 @@ public class NumberList extends Application {
         to.getItems().addAll(l);
         from.getItems().removeAll(l);
         Collections.sort(to.getItems());
+        from.refresh();
     }
 
     private void moveSingle(ListView<Integer> from, ListView<Integer> to) {
         Integer i = from.getSelectionModel().getSelectedItem();
         if (i < 0) return;
         to.getItems().add(-(Collections.binarySearch(to.getItems(), i)+1), i);
+        to.refresh();
+        from.refresh();
+        to.refresh();
     }
 
     @FXML

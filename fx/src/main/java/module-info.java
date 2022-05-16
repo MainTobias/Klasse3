@@ -36,4 +36,7 @@ module fx {
 
     opens rectangle to javafx.fxml;
     exports rectangle;
+
+    opens mean to javafx.fxml;
+    exports mean;
 }

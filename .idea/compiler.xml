@@ -14,7 +14,7 @@
       <module name="Chess" target="18" />
       <module name="fx" target="17" />
       <module name="HelloHTL" target="18" />
-      <module name="Klasse3" target="17" />
+      <module name="Klasse3" target="16" />
       <module name="swapper" target="18" />
       <module name="textcombiner" target="17" />
     </bytecodeTargetLevel>
