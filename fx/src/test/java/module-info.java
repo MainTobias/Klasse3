@@ -6,6 +6,6 @@ module fx.test {
     requires org.assertj.core;
     requires org.testfx;
     requires org.mockito;
-    requires fx;
+    requires fx.main;
 
 }

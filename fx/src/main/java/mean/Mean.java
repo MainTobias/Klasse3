@@ -2,6 +2,10 @@ package mean;
 
 import com.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,12 +52,19 @@ public class Mean extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Logic
+        numberInput.setOnAction(e -> add());
+        StringBinding formatString = Bindings.createStringBinding(() -> "%." + ((int) precision.valueProperty().get()) + "f", precision.valueProperty());
+
         // Should only be visible
         arithmeticLabel.visibleProperty().bind(arithmetic.selectedProperty());
         geometricLabel.visibleProperty().bind(geometric.selectedProperty());
         harmonicLabel.visibleProperty().bind(harmonic.selectedProperty());
+
         // Calculate the means
-        arithmeticLabel.textProperty().bind(Bindings.createDoubleBinding(() -> numbers.getItems().stream().mapToDouble(x -> x).average().orElse(0), numbers.getItems()).asString());
+        arithmeticLabel.textProperty().bind(new SimpleStringProperty("Arithmetisches Mittel:\t").concat(Bindings.createStringBinding(() -> String.format(formatString.get(), numbers.getItems().stream().mapToDouble(x -> x).average().orElse(Double.NaN)), numbers.getItems(), formatString)));
+        geometricLabel.textProperty().bind(new SimpleStringProperty("Geometrisches Mittel:\t").concat(Bindings.createStringBinding(() -> numbers.getItems().stream().anyMatch(x -> x <= 0) ? "Liste darf nur positive Werte enthalten" : String.format(formatString.get(), Math.pow(numbers.getItems().stream().mapToDouble(x -> x).reduce(1, (a, b) -> a * b), 1d / numbers.getItems().size())), numbers.getItems(), formatString)));
+        harmonicLabel.textProperty().bind(new SimpleStringProperty("Harmonisches Mittel:\t").concat(Bindings.createStringBinding(() -> String.format(formatString.get(), numbers.getItems().contains(0d) ? 0 : numbers.getItems().size() / numbers.getItems().stream().mapToDouble(x -> 1 / x).sum()), numbers.getItems(), formatString)));
 
 
     }
@@ -71,6 +82,7 @@ public class Mean extends Application implements Initializable {
             numbers.getItems().add(Double.parseDouble(s));
             Collections.sort(numbers.getItems());
             numbers.refresh();
+            numberInput.clear();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Illegaler Wert");

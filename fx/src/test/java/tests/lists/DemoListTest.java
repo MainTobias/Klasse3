@@ -1,4 +1,4 @@
-package liststests;
+package tests.lists;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
