@@ -1,4 +1,4 @@
-package liststests;
+package tests.mean;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.testfx.api.FxRobot;
@@ -15,6 +16,7 @@ import org.testfx.api.FxRobot;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -22,10 +24,22 @@ abstract class FxTest {
     private static final int ERROR_FXML_NOT_FOUND = 1;
     private static final int ERROR_ID_NOT_FOUND = 2;
     private Parent root;
+    private static Locale oldLocale;
 
     @BeforeAll
     private static void setFailOnError() {
         Thread.setDefaultUncaughtExceptionHandler((t, error) -> fail(error));
+    }
+
+    @BeforeAll
+    private static void setupLocale() {
+        oldLocale = Locale.getDefault();
+        Locale.setDefault(Locale.US);
+    }
+
+    @AfterAll
+    private static void restoreLocale() {
+        Locale.setDefault(oldLocale);
     }
 
     @AfterEach
@@ -45,6 +59,8 @@ abstract class FxTest {
         if (!(root instanceof DialogPane))
             return;
         DialogPane dialogPane = (DialogPane) root;
+        if (dialogPane.getButtonTypes().contains(ButtonType.CANCEL))
+            return;
         robot.interact(() -> dialogPane.getButtonTypes().add(ButtonType.CANCEL));
     }
 

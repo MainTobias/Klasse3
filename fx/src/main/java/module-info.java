@@ -1,4 +1,4 @@
-module fx {
+module fx.main {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;

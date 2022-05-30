@@ -8,12 +8,14 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mean.Mean">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mean.Mean">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -40,9 +42,9 @@
                <children>
                   <Label text="Neuer Wert:" />
                   <TextField fx:id="numberInput" GridPane.rowIndex="1" />
-                  <Button onAction="#add" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Wert übernehmen" GridPane.rowIndex="2" />
-                  <Button onAction="#remove" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Einzelwert löschen" GridPane.rowIndex="3" />
-                  <Button onAction="#clear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Alle löschen" GridPane.rowIndex="4" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#add" text="Wert übernehmen" GridPane.rowIndex="2" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#remove" text="Einzelwert löschen" GridPane.rowIndex="3" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clear" text="Alle löschen" GridPane.rowIndex="4" />
                   <ListView fx:id="numbers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2147483647" GridPane.vgrow="ALWAYS" />
                </children>
             </GridPane>
@@ -56,7 +58,7 @@
                   <CheckBox fx:id="geometric" layoutX="11.0" layoutY="38.0" mnemonicParsing="false" text="Geometrisches Mittel" />
                   <CheckBox fx:id="harmonic" layoutX="11.0" layoutY="63.0" mnemonicParsing="false" text="Harmonisches Mittel" />
                   <Label layoutX="11.0" layoutY="87.0" text="Nachkommastellen" />
-                  <Slider fx:id="precision" blockIncrement="1.0" layoutX="14.0" layoutY="122.0" majorTickUnit="1.0" max="5.0" maxWidth="1.7976931348623157E308" minorTickCount="0" prefHeight="38.0" prefWidth="256.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="precision" blockIncrement="1.0" layoutX="14.0" layoutY="122.0" majorTickUnit="1.0" max="5.0" maxWidth="1.7976931348623157E308" minorTickCount="0" prefHeight="38.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                </children></AnchorPane>
         </content>
       </TitledPane>
@@ -67,6 +69,11 @@
                   <Label fx:id="arithmeticLabel" layoutX="14.0" layoutY="27.0" text="Arithmetisches Mittel:" />
                   <Label fx:id="geometricLabel" layoutX="14.0" layoutY="53.0" text="Geometrisches Mittel:" />
                   <Label fx:id="harmonicLabel" layoutX="14.0" layoutY="80.0" text="Harmonisches Mittel:" />
+                  <ImageView fitHeight="87.0" fitWidth="179.0" layoutX="359.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@logo.png" />
+                     </image>
+                  </ImageView>
                </children></AnchorPane>
         </content>
       </TitledPane>
