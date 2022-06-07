@@ -1,5 +1,7 @@
 package states;
 
+import javafx.beans.property.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,13 +9,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class State {
-    private String wappen;
-    private String name;
-    private String hauptstadt;
-    private String landeshauptmann;
+    private StringProperty wappen = new SimpleStringProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private StringProperty hauptstadt = new SimpleStringProperty();
+    private StringProperty landeshauptmann = new SimpleStringProperty();
     private Map<String, Integer> parteien;
-    private int einwohner;
-    private double flaeche;
+    private IntegerProperty einwohner = new SimpleIntegerProperty();
+    private DoubleProperty flaeche = new SimpleDoubleProperty();
 
     public static List<State> readFile(InputStream in) throws IOException {
         List<State> states = new ArrayList<>();
@@ -46,65 +48,7 @@ public class State {
         System.out.println(readFile(Files.newInputStream(Path.of("C:\\Users\\20190632\\IdeaProjects\\Klasse3\\fx\\src\\main\\resources\\states\\bundesländer.csv"))));
     }
 
-    public String getWappen() {
-        return wappen;
-    }
 
-    public void setWappen(String wappen) {
-        this.wappen = wappen;
-    }
-
-    public Map<String, Integer> getParteien() {
-        return parteien;
-    }
-
-    public void setParteien(Map<String, Integer> parteien) {
-        this.parteien = parteien;
-    }
-
-    public void setEinwohner(int einwohner) {
-        this.einwohner = einwohner;
-    }
-
-    public void setFlaeche(double flaeche) {
-        this.flaeche = flaeche;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHauptstadt() {
-        return hauptstadt;
-    }
-
-    public void setHauptstadt(String hauptstadt) {
-        this.hauptstadt = hauptstadt;
-    }
-
-    public String getLandeshauptmann() {
-        return landeshauptmann;
-    }
-
-    public void setLandeshauptmann(String landeshauptmann) {
-        this.landeshauptmann = landeshauptmann;
-    }
-
-    public int getEinwohner() {
-        return einwohner;
-    }
-
-    public double getFlaeche() {
-        return flaeche;
-    }
-
-    public int getSitze() {
-        return parteien.values().stream().mapToInt(x -> x).sum();
-    }
 
     @Override
     public String toString() {
@@ -117,5 +61,89 @@ public class State {
                 ", einwohner=" + einwohner +
                 ", flaeche=" + flaeche +
                 '}';
+    }
+
+    public String getWappen() {
+        return wappen.get();
+    }
+
+    public StringProperty wappenProperty() {
+        return wappen;
+    }
+
+    public void setWappen(String wappen) {
+        this.wappen.set(wappen);
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public String getHauptstadt() {
+        return hauptstadt.get();
+    }
+
+    public StringProperty hauptstadtProperty() {
+        return hauptstadt;
+    }
+
+    public void setHauptstadt(String hauptstadt) {
+        this.hauptstadt.set(hauptstadt);
+    }
+
+    public String getLandeshauptmann() {
+        return landeshauptmann.get();
+    }
+
+    public StringProperty landeshauptmannProperty() {
+        return landeshauptmann;
+    }
+
+    public void setLandeshauptmann(String landeshauptmann) {
+        this.landeshauptmann.set(landeshauptmann);
+    }
+
+    public Map<String, Integer> getParteien() {
+        return parteien;
+    }
+
+    public void setParteien(Map<String, Integer> parteien) {
+        this.parteien = parteien;
+    }
+
+    public int getEinwohner() {
+        return einwohner.get();
+    }
+
+    public IntegerProperty einwohnerProperty() {
+        return einwohner;
+    }
+
+    public void setEinwohner(int einwohner) {
+        this.einwohner.set(einwohner);
+    }
+
+    public double getFlaeche() {
+        return flaeche.get();
+    }
+
+    public DoubleProperty flaecheProperty() {
+        return flaeche;
+    }
+
+    public void setFlaeche(double flaeche) {
+        this.flaeche.set(flaeche);
+    }
+
+    public int getSitze() {
+        return parteien.values().stream().mapToInt(x -> x).sum();
     }
 }

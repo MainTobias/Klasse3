@@ -39,5 +39,7 @@ module fx.main {
 
     opens mean to javafx.fxml;
     exports mean;
+
+    opens states to javafx.fxml;
     exports states;
 }
